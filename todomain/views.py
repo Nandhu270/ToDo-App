@@ -1,5 +1,4 @@
-from django.http import HttpResponse
-from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth.models import User
 from .models import Todo
 from django.contrib.auth.decorators import login_required
@@ -32,11 +31,23 @@ def Done(request,id):
 
 @login_required
 def Delete(request,id):
-    return HttpResponse(id)
+    user = request.user
+    todo = Todo.objects.get(user=user,pk=id)
+    todo.delete()
+    return redirect('index')
 
 @login_required
-def Edit(request,id):
-    return HttpResponse(id)
+def Edit(request, id):
+    if request.method == "POST":
+        content = request.POST.get('task')
+        todo = get_object_or_404(Todo, user=request.user, pk=id)
+        todo.content = content
+        todo.save()
+        return redirect('index')  
+
+    else:
+        todo = get_object_or_404(Todo, user=request.user, pk=id)
+        return render(request, 'edit.html', {'todo': todo,'id' : id})
     
 @login_required
 def Undone(request,id):

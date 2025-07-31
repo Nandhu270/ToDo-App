@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Todo</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="flex justify-center mt-15 p-3">
+        <form action="{% url 'edit' id %}" method="POST">
+              {% csrf_token %}
+              <div class="bg-sky-200 p-3 rounded-xl">
+                <input
+                  type="text"
+                  class="w-full py-2 px-3 rounded-xl border border-white focus:outline-white"
+                  name="task"
+                  placeholder="Add a Task"
+                  value = "{{todo}}"
+                  required
+                />
+                <button
+                  type="submit"
+                class="cursor-pointer bg-cyan-700 px-2.5 py-1.5 mt-3 rounded-3xl text-white font-bold"
+                >
+                  Edit Task
+                </button>
+              </div>
+            </form>
+    </div>
+</body>
+</html>

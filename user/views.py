@@ -14,9 +14,14 @@ def login(request):
         c_pass = request.POST.get('c_pass')
         
         user = auth.authenticate(username=u_name,password=c_pass)
+
         if user is not None:
             auth.login(request,user)
-            return redirect('todo/index')
+
+            if user.is_superuser:
+                return redirect('/admin/')
+            else:
+                return redirect('todo/index')
         else:
             messages.error(request,"Invalid MailId or Password")
             return render(request,'login.html')

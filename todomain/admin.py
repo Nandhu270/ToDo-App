@@ -6,5 +6,6 @@ class TodoAdmin(admin.ModelAdmin):
     search_fields = ('user__username','content')
     list_filter = ('is_completed',)
     list_per_page = 15
+    
 
 admin.site.register(Todo, TodoAdmin)
